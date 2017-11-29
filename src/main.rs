@@ -57,7 +57,7 @@ fn setup_menu() {
 
     let kinetic_energy:f64 = 0.5 * velocity * mass * mass;
     println!("=======================");
-    println!("Kinetic Energy: {}j", kinetic_energy);
+    println!("Kinetic Energy: {:.8}j", kinetic_energy);
     println!("=======================");
  }
 
@@ -65,8 +65,8 @@ fn calculate_potential_energy() {
     println!();
     println!();
     println!("You chose potential energy");
-    println!("Are you calculating potential energy due to a spring or gravity?");
-    println!("  1) Spring");
+    println!("Are you calculating potential energy due to a elasticity or gravity?");
+    println!("  1) Elastic");
     println!("  2) Gravity");
     loop {
         println!("Please enter 1 or 2 now");
@@ -76,7 +76,7 @@ fn calculate_potential_energy() {
         let choice = match choice.trim().parse() {
             Ok(num) => num,
             Err(_) => {
-                println!("Not a number. Please typw 1 or 2");
+                println!("Not a number. Please enter 1 or 2");
                 continue
             }
         };
@@ -87,6 +87,7 @@ fn calculate_potential_energy() {
             },
             2 => {
                 calculate_gravitational_energy();
+                break
             },
             _ => {
                 println!("Not a valid choice.");
@@ -96,25 +97,9 @@ fn calculate_potential_energy() {
     }
 }
 
-fn get_yes_no_value() -> bool {
-    loop {
-        let mut is_on_earth = String::new();
-        io::stdin().read_line(&mut is_on_earth)
-            .expect("Please enter Y or n");
-        match is_on_earth.as_ref() {
-            "Y" => return true,
-            "n" => return false,
-            _ => {
-                println!("Please enter Y or n");
-                continue
-            }
-        };
-    };
-}
-
 fn calculate_gravitational_energy() {
     println!("You are calculating gravitational potential energy");
-    println!("Are you on earth? (Y/n");
+    println!("Are you on earth? (Y/n)");
     let is_on_earth:bool = get_yes_no_value();
     let gravity:f64 = if is_on_earth {
         9.81
@@ -125,11 +110,21 @@ fn calculate_gravitational_energy() {
     let mass = get_value(String::from("mass of the object in kg"));
 
     let gravitational_potential_energy: f64 = mass * gravity * height;
-    println!("Gravitational Potential Energy: {}j", gravitational_potential_energy);
+    println!("=======================");
+    println!("Gravitational Potential Energy: {:.8}j", gravitational_potential_energy);
+    println!("=======================");
 }
 
 fn calculate_spring_energy() {
-    println!("You are calculating spring energy");
+    println!("You are calculating elastic potential energy");
+    let constant = get_value(String::from("spring constant"));
+    let displacement = get_value(String::from("displacement in meters"));
+
+    let elastic_potential_energy:f64 = 0.5 * constant * displacement * displacement;
+
+    println!("=======================");
+    println!("Elastic Potential Energy: {:.8}j", elastic_potential_energy);
+    println!("=======================");
 }
 
 fn calculate_work_done() {
@@ -142,9 +137,12 @@ fn calculate_work_done() {
 
     let work_done = force * distance * relative_direction.to_radians().cos();
     println!("=======================");
-    println!("Work done: {}j", work_done);
+    println!("Work done: {:.8}j", work_done);
     println!("=======================");
 }
+// ==============
+// Helper methods
+// ==============
 
 fn get_value(name: String) -> f64 {
     loop {
@@ -162,4 +160,20 @@ fn get_value(name: String) -> f64 {
         };
         break value
     }
+}
+
+fn get_yes_no_value() -> bool {
+    loop {
+        let mut is_on_earth = String::new();
+        io::stdin().read_line(&mut is_on_earth)
+            .expect("Please enter Y or n");
+        match is_on_earth.trim().as_ref() {
+            "Y" => return true,
+            "n" => return false,
+            _ => {
+                println!("Please enter Y or n");
+                continue
+            }
+        };
+    };
 }
