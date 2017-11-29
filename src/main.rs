@@ -3,6 +3,47 @@ use std::io;
 
 
 fn main() {
+    setup_menu();
+    loop {
+        println!("Please input either 1 or 2 now.");
+        let mut choice = String::new();
+        io::stdin().read_line(&mut choice)
+            .expect("Please make a choice.");
+        let choice:u8 = match choice.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Not even a numer! Please enter a valid choice.");
+                continue
+            }
+        };
+
+        match choice {
+            1 => { 
+                calculate_kinetic_energy();
+                break
+            },
+            2 => {
+                println!("Your chose potential energy");
+                break
+            },
+            _ => {
+                println!("This wasn't a valid choice");
+                continue
+            }
+        }
+
+    }
+}
+
+fn setup_menu() {
+    println!();
+    println!();
+    println!("What type of energy would you like to calculate?");
+    println!("  1) Kinetic");
+    println!("  2) Potential");
+}
+
+fn calculate_kinetic_energy() {
     let force:f64 = get_value(String::from("force in Newtons"));
     let distance:f64 = get_value(String::from("distance in metres"));
     let relative_direction: f64 = get_value(String::from("relative direction in degrees"));
@@ -11,7 +52,6 @@ fn main() {
     println!("=======================");
     println!("Work done: {}j", work_done);
     println!("=======================");
-    
 }
 
 fn get_value(name: String) -> f64 {
