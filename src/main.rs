@@ -23,7 +23,7 @@ fn main() {
                 break
             },
             2 => {
-                println!("Your chose potential energy");
+                calculate_potential_energy();
                 break
             },
             _ => {
@@ -43,7 +43,16 @@ fn setup_menu() {
     println!("  2) Potential");
 }
 
+fn calculate_potential_energy() {
+    println!();
+    println!("You chose potential energy");
+    println!();
+}
+
 fn calculate_kinetic_energy() {
+    println!();
+    println!("Now calculating kinetic energy.");
+    println!();
     let force:f64 = get_value(String::from("force in Newtons"));
     let distance:f64 = get_value(String::from("distance in metres"));
     let relative_direction: f64 = get_value(String::from("relative direction in degrees"));
